@@ -323,17 +323,6 @@ Para desactivar logs en producción:
 # En app.py, comentar todas las líneas con print([DEBUG])
 ```
 
-## 🚀 Próximas Características (Roadmap)
-
-- [ ] 🌍 Soporte para más idiomas (árabe, hindi, coreano, tailandés)
-- [ ] 📁 Upload de archivos PDF/DOCX directo
-- [ ] 🔊 Síntesis de voz para traducciones
-- [ ] 📊 Dashboard de estadísticas de uso
-- [ ] 🌙 Modo oscuro/claro
-- [ ] 🔌 API REST para integración con otros servicios
-- [ ] 📱 Aplicación móvil (React Native)
-- [ ] 🧠 Fine-tuning con modelos personalizados
-
 ## 🤝 Contribuciones
 
 Las contribuciones son bienvenidas! Por favor:
