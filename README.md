@@ -88,13 +88,10 @@ La aplicación utiliza un sistema de fallback con estos modelos:
 ### Opción 1: Ejecutar Localmente (Recomendado para desarrollo)
 Sigue la sección de [Instalación Local](#instalación-local) abajo
 
-### Opción 2: Despliegue en la Nube
-> 🚀 **Próximamente** - Deploy automático en Hugging Face Spaces o Heroku
-> 
-> Para desplegar tu propia instancia:
-> - **Hugging Face Spaces**: Clona este repo como un nuevo Space privado
-> - **Heroku**: Usa `heroku create` + agrega buildpack de Python
-> - **Railway/Render**: Conecta el repo directamente
+### Opción 2: Hugging Face Spaces
+🚀 **Ya desplegado** - Accede directamente sin instalación:
+
+**🔗 https://huggingface.co/spaces/CABocaz/FundamentosIA**
 
 ---
 
