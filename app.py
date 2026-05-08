@@ -743,20 +743,29 @@ def char_count(text: str) -> str:
     cls = "char-counter warn" if n > MAX_CHARS else "char-counter"
     return f'<span class="{cls}">{n:,} / {MAX_CHARS:,} caracteres</span>'
 
-_key_visible = False
-
-def toggle_key_visibility(pwd_val, txt_val):
-    global _key_visible
-    _key_visible = not _key_visible
-    val = txt_val if _key_visible else pwd_val
-    return (
-        gr.update(visible=not _key_visible, value=val),  # api_key_input (password)
-        gr.update(visible=_key_visible,     value=val),  # api_key_visible (text)
-        "🙈" if _key_visible else "👁",                  # btn_key_toggle label
-    )
 
 
-with gr.Blocks(css=CSS, title="AI Multi-Op · Gemini") as demo:
+JS = """
+(function() {
+    function attachToggle() {
+        const btn = document.querySelector('button.btn-toggle-key');
+        if (!btn || btn.dataset.toggleReady) return;
+        btn.dataset.toggleReady = '1';
+        btn.addEventListener('click', function(e) {
+            e.stopImmediatePropagation();
+            const input = document.querySelector('input[data-testid="password"]');
+            if (!input) return;
+            input.type = input.type === 'password' ? 'text' : 'password';
+            btn.textContent = input.type === 'password' ? '👁' : '🙈';
+        }, true);
+    }
+    // Ejecutar inmediatamente y con MutationObserver para cuando Gradio renderice
+    attachToggle();
+    new MutationObserver(attachToggle).observe(document.body, {childList:true, subtree:true});
+})();
+"""
+
+with gr.Blocks(title="AI Multi-Op · Gemini") as demo:
 
     # ── CSS extra para forzar tema claro ──
     gr.HTML('<style>' +
@@ -808,6 +817,30 @@ with gr.Blocks(css=CSS, title="AI Multi-Op · Gemini") as demo:
         }
     });
     document.getElementById('apiKeyModal').style.display = 'none !important';
+
+    // Toggle visibilidad API Key — MutationObserver para detectar el botón
+    (function() {
+        function attachToggle(btn) {
+            if (btn.dataset.toggleReady) return;
+            btn.dataset.toggleReady = '1';
+            btn.addEventListener('click', function(e) {
+                e.stopImmediatePropagation();
+                const input = document.querySelector('input[data-testid="password"]');
+                if (!input) return;
+                input.type = input.type === 'password' ? 'text' : 'password';
+                btn.textContent = input.type === 'password' ? '👁' : '🙈';
+            }, true);
+        }
+        // Intentar inmediatamente
+        const existing = document.querySelector('button.btn-toggle-key');
+        if (existing) { attachToggle(existing); }
+        // Observar el DOM para cuando Gradio renderice el botón
+        const observer = new MutationObserver(function() {
+            const btn = document.querySelector('button.btn-toggle-key');
+            if (btn) { attachToggle(btn); }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+    })();
     </script>
     """)
 
@@ -831,20 +864,12 @@ with gr.Blocks(css=CSS, title="AI Multi-Op · Gemini") as demo:
                 container=False,
                 visible=True,
             )
-            api_key_visible = gr.Textbox(
-                placeholder="AIza...",
-                type="text",
-                max_lines=1,
-                show_label=False,
-                container=False,
-                visible=False,
-            )
             btn_key_toggle = gr.Button("👁", scale=0, min_width=44, size="sm", elem_classes="btn-toggle-key")
         key_error = gr.HTML(
             '<div style="color:#ef4444;font-size:1rem;margin-top:4px;font-weight:500;">'
             '⚠️ Primero, ingresa tu API Key para habilitar las operaciones.'
             '</div>',
-            visible=False,
+            visible=True,
         )
         key_ok_msg = gr.HTML(
             '<div style="color:#16a34a;font-size:1rem;margin-top:4px;font-weight:500;">'
@@ -869,21 +894,21 @@ with gr.Blocks(css=CSS, title="AI Multi-Op · Gemini") as demo:
                         choices=LANGUAGES,
                         value="Español",
                         label="Idioma origen",
-                        interactive=True,
+                        interactive=False,
                     )
                     src_text = gr.Textbox(
                         label="Texto original",
                         placeholder="Pega o escribe el texto que deseas traducir...",
                         lines=8,
                         max_lines=20,
-                        interactive=True,
+                        interactive=False,
                     )
                     char_html_t = gr.HTML('<span class="char-counter">0 / 5,000 caracteres</span>')
 
                 # Columna central — botón traducir
                 with gr.Column(scale=0.3, min_width=100):
                     gr.HTML('<div style="height: 2rem;"></div>')
-                    btn_translate = gr.Button("Traducir →", variant="primary", interactive=True, scale=1)
+                    btn_translate = gr.Button("Traducir →", variant="primary", interactive=False, scale=1)
 
                 # Columna derecha — output de traducción
                 with gr.Column(scale=1):
@@ -891,12 +916,12 @@ with gr.Blocks(css=CSS, title="AI Multi-Op · Gemini") as demo:
                         choices=LANGUAGES,
                         value="English",
                         label="Idioma destino",
-                        interactive=True,
+                        interactive=False,
                     )
                     translation_output = gr.Textbox(
                         label="Traducción",
                         lines=10,
-                        interactive=True,
+                        interactive=False,
                         elem_classes="output-box",
                         placeholder="La traducción aparecerá aquí...",
                     )
@@ -933,7 +958,7 @@ with gr.Blocks(css=CSS, title="AI Multi-Op · Gemini") as demo:
                 lines=7,
                 max_lines=15,
                 visible=True,
-                interactive=True,
+                interactive=False,
             )
             char_html_q = gr.HTML('<span class="char-counter">0 / 5,000 caracteres</span>', visible=True)
 
@@ -950,7 +975,7 @@ with gr.Blocks(css=CSS, title="AI Multi-Op · Gemini") as demo:
                 placeholder="¿Cuál es el tema principal del documento?",
                 lines=2,
                 max_lines=4,
-                interactive=True,
+                interactive=False,
             )
 
             # Paso 3 - Respuesta
@@ -970,7 +995,7 @@ with gr.Blocks(css=CSS, title="AI Multi-Op · Gemini") as demo:
             )
 
             # Botón Responder al final
-            btn_qa = gr.Button("Responder →", variant="primary", interactive=True, scale=1)
+            btn_qa = gr.Button("Responder →", variant="primary", interactive=False, scale=1)
 
             doc_text.change(fn=char_count, inputs=doc_text, outputs=char_html_q, queue=False, show_progress=False)
             btn_qa.click(
@@ -980,28 +1005,14 @@ with gr.Blocks(css=CSS, title="AI Multi-Op · Gemini") as demo:
             )
 
     # ── Key validation on change ──
-    # DESACTIVADO: toggle_tabs() - los componentes siempre están habilitados
-    # api_key_input.change(
-    #     fn=toggle_tabs,
-    #     inputs=api_key_input,
-    #     outputs=[btn_translate, btn_qa, key_error, key_ok_msg, source_lang, src_text, target_lang, doc_text, question_input],
-    #     queue=False,
-    #     show_progress="hidden",
-    # )
-
-    # ── Sincronizar campos al escribir ──
-    # DESACTIVADO: Causaba loop infinito (input→visible→input→visible...)
-    # api_key_input.change(fn=lambda v: v, inputs=api_key_input, outputs=api_key_visible, queue=False, show_progress="hidden")
-    # api_key_visible.change(fn=lambda v: v, inputs=api_key_visible, outputs=api_key_input, queue=False, show_progress="hidden")
-
-    # ── Toggle visibilidad ──
-    btn_key_toggle.click(
-        fn=toggle_key_visibility,
-        inputs=[api_key_input, api_key_visible],
-        outputs=[api_key_input, api_key_visible, btn_key_toggle],
+    api_key_input.change(
+        fn=toggle_tabs,
+        inputs=api_key_input,
+        outputs=[btn_translate, btn_qa, key_error, key_ok_msg, source_lang, src_text, target_lang, doc_text, question_input],
         queue=False,
         show_progress="hidden",
     )
+
 
     gr.HTML("""
     <div style="text-align:center;padding:1.5rem 0 0.5rem;color:#94a3b8;font-size:0.75rem;">
@@ -1010,8 +1021,11 @@ with gr.Blocks(css=CSS, title="AI Multi-Op · Gemini") as demo:
     """)
 
 
+
 if __name__ == "__main__":
     demo.launch(
+        css=CSS,
+        js=JS,
         server_name="0.0.0.0",
         server_port=7860,
         share=False,
