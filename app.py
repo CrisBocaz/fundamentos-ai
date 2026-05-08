@@ -287,22 +287,33 @@ gradio-app, .gradio-container {
     align-self: center !important;
     margin: 0 !important;
 }
-.btn-toggle-key button {
+/* Selector de alta especificidad para override de button.secondary */
+button.sm.secondary.btn-toggle-key,
+.btn-toggle-key button,
+button.btn-toggle-key {
     padding: 0 !important;
-    font-size: 1rem !important;
-    min-width: 36px !important;
-    max-width: 36px !important;
-    width: 36px !important;
-    height: 36px !important;
+    font-size: 1.1rem !important;
+    min-width: 38px !important;
+    max-width: 38px !important;
+    width: 38px !important;
+    height: 38px !important;
     box-shadow: none !important;
-    background: var(--bg-alt) !important;
+    background: #f0f0f0 !important;
     color: var(--text) !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 4px !important;
+    border: 1.5px solid #c0c0c0 !important;
+    border-radius: 6px !important;
     line-height: 1 !important;
+    opacity: 1 !important;
+    filter: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
-.btn-toggle-key button:hover {
+button.sm.secondary.btn-toggle-key:hover,
+.btn-toggle-key button:hover,
+button.btn-toggle-key:hover {
     background: var(--primary-light) !important;
+    border-color: var(--primary) !important;
     box-shadow: none !important;
 }
 
@@ -316,40 +327,66 @@ gradio-app, .gradio-container {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07) !important;
 }
 
-/* Tabs - modern and prominent */
-.tab-nav {
+/* Tabs - estructura real de Gradio 6:
+   .tabs > .tab-wrapper > .tab-container[role=tablist] > button[role=tab] */
+.tab-wrapper {
     border-bottom: 3px solid var(--primary) !important;
-    gap: 0 !important;
-    padding: 0 2rem !important;
-    background: white !important;
+    background: #f1f3f9 !important;
+    padding: 0.8rem 1.5rem 0 !important;
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 72px !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    box-sizing: border-box !important;
 }
-.tab-nav button {
-    font-weight: 600 !important;
-    font-size: 1rem !important;
-    color: var(--text-light) !important;
-    border-radius: 0 !important;
-    transition: all 0.3s ease !important;
-    padding: 1.5rem 2.5rem !important;
-    border: none !important;
-    background: white !important;
+.tab-container {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 56px !important;
+    gap: 0.6rem !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    flex: 1 !important;
+}
+.tab-container button {
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    color: #888 !important;
+    border-radius: 8px 8px 0 0 !important;
+    transition: all 0.2s ease !important;
+    padding: 0.9rem 2.2rem !important;
+    border-top: 3px solid #ccc !important;
+    border-left: 3px solid #ccc !important;
+    border-right: 3px solid #ccc !important;
+    border-bottom: 3px solid #f1f3f9 !important;
+    background: #e8ebf2 !important;
     margin-bottom: -3px !important;
     box-shadow: none !important;
+    opacity: 1 !important;
+    filter: none !important;
 }
-/* Tab hover — ambos selectores para local y HF Spaces */
-.tab-nav button:hover:not(.selected),
-.tab-nav button[aria-selected="false"]:hover {
+/* Tab hover */
+.tab-container button:hover:not(.selected),
+.tab-container button[aria-selected="false"]:hover {
     background: var(--primary-light) !important;
-    color: var(--text) !important;
+    color: var(--primary) !important;
+    border-top: 3px solid var(--primary) !important;
+    border-left: 3px solid var(--primary) !important;
+    border-right: 3px solid var(--primary) !important;
 }
-/* Tab activo — .selected (local) y aria-selected (HF Spaces / Gradio 6) */
-.tab-nav button.selected,
-.tab-nav button[aria-selected="true"] {
+/* Tab activo */
+.tab-container button.selected,
+.tab-container button[aria-selected="true"] {
     color: var(--primary) !important;
     background: white !important;
-    border-bottom: 4px solid var(--primary) !important;
-    box-shadow: none !important;
+    border-top: 3px solid var(--primary) !important;
+    border-left: 3px solid var(--primary) !important;
+    border-right: 3px solid var(--primary) !important;
+    border-bottom: 3px solid white !important;
     font-weight: 700 !important;
-    font-size: 1.05rem !important;
+    font-size: 1.15rem !important;
+    box-shadow: 0 -2px 8px rgba(99,102,241,0.12) !important;
 }
 
 /* Buttons — primarios (Traducir, Responder) */
@@ -378,6 +415,15 @@ button.primary:focus,
 .gr-button-primary:focus {
     outline: none !important;
     box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25) !important;
+}
+/* Botón deshabilitado — mantener color, solo reducir opacidad levemente */
+button.primary:disabled,
+.gr-button-primary:disabled {
+    background: var(--primary) !important;
+    color: white !important;
+    opacity: 0.65 !important;
+    filter: none !important;
+    cursor: not-allowed !important;
 }
 
 /* Botones secundarios (toggle, sm) */
