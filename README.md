@@ -50,6 +50,9 @@ Este proyecto demuestra cómo construir aplicaciones de IA modernas que:
 │ Traducción: [Resultado aquí...]                 │
 └─────────────────────────────────────────────────┘
 ```
+<img width="1430" height="402" alt="image" src="https://github.com/user-attachments/assets/0344f8af-e0ab-46f4-ae68-56bcb635c273" />
+
+
 
 ### Q&A Tab
 ```
@@ -66,6 +69,9 @@ Este proyecto demuestra cómo construir aplicaciones de IA modernas que:
 │ [Respuesta del asistente...]                    │
 └─────────────────────────────────────────────────┘
 ```
+<img width="990" height="665" alt="image" src="https://github.com/user-attachments/assets/3483af65-0601-4b26-9e48-87ab0b38f695" />
+
+
 
 **📸 Nota:** Para ver capturas de pantalla actuales de la app funcionando, ejecuta localmente y accede a `http://localhost:7860`
 
@@ -291,25 +297,6 @@ fundamentos-ai/
 
 ## 🔒 Seguridad & Best Practices
 
-### Protección de Datos Sensibles
-El proyecto incluye `.gitignore` que protege automáticamente:
-```
-.env                    # Variables de entorno (API keys)
-*.log                   # Archivos de log con información sensible
-__pycache__/           # Archivos compilados de Python
-venv/                  # Ambiente virtual
-.DS_Store              # Archivos del sistema macOS
-*.pyc                  # Bytecode compilado
-```
-
-### ⚠️ IMPORTANTE - Seguridad de API Key
-**NUNCA** hagas esto:
-```bash
-# ❌ MAL - Expone la API Key
-git add .env
-git commit -m "Add API key"
-python app.py AIza_tu_clave_123
-
 # ✅ BIEN - Usa variables de entorno
 export GEMINI_API_KEY="AIza_tu_clave"
 python app.py  # Lee desde variable de entorno
@@ -341,17 +328,6 @@ Para desactivar logs en producción:
 ```python
 # En app.py, comentar todas las líneas con print([DEBUG])
 ```
-
-## 🚀 Próximas Características (Roadmap)
-
-- [ ] 🌍 Soporte para más idiomas (árabe, hindi, coreano, tailandés)
-- [ ] 📁 Upload de archivos PDF/DOCX directo
-- [ ] 🔊 Síntesis de voz para traducciones
-- [ ] 📊 Dashboard de estadísticas de uso
-- [ ] 🌙 Modo oscuro/claro
-- [ ] 🔌 API REST para integración con otros servicios
-- [ ] 📱 Aplicación móvil (React Native)
-- [ ] 🧠 Fine-tuning con modelos personalizados
 
 ## 🤝 Contribuciones
 
