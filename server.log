@@ -1,0 +1,4 @@
+/Users/cristianbocaz/Documents/claude/OBS/Fundamentos/files/app.py:746: UserWarning: The parameters have been moved from the Blocks constructor to the launch() method in Gradio 6.0: css. Please pass these parameters to launch() instead.
+  with gr.Blocks(css=CSS, title="AI Multi-Op · Gemini") as demo:
+/usr/local/lib/python3.13/site-packages/gradio/layouts/column.py:59: UserWarning: 'scale' value should be an integer. Using 0.3 will cause issues.
+  warnings.warn(
