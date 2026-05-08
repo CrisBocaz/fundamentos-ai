@@ -256,7 +256,7 @@ gradio-app, .gradio-container {
 /* Header - modern with gradient */
 .app-header {
     text-align: center;
-    padding: 3rem 1rem 2.5rem;
+    padding: 1.2rem 1rem 1.5rem;
     background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
