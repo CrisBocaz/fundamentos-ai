@@ -291,25 +291,6 @@ fundamentos-ai/
 
 ## 🔒 Seguridad & Best Practices
 
-### Protección de Datos Sensibles
-El proyecto incluye `.gitignore` que protege automáticamente:
-```
-.env                    # Variables de entorno (API keys)
-*.log                   # Archivos de log con información sensible
-__pycache__/           # Archivos compilados de Python
-venv/                  # Ambiente virtual
-.DS_Store              # Archivos del sistema macOS
-*.pyc                  # Bytecode compilado
-```
-
-### ⚠️ IMPORTANTE - Seguridad de API Key
-**NUNCA** hagas esto:
-```bash
-# ❌ MAL - Expone la API Key
-git add .env
-git commit -m "Add API key"
-python app.py AIza_tu_clave_123
-
 # ✅ BIEN - Usa variables de entorno
 export GEMINI_API_KEY="AIza_tu_clave"
 python app.py  # Lee desde variable de entorno
