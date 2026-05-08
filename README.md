@@ -50,8 +50,8 @@ Este proyecto demuestra cómo construir aplicaciones de IA modernas que:
 │ Traducción: [Resultado aquí...]                 │
 └─────────────────────────────────────────────────┘
 ```
+<img width="1430" height="402" alt="image" src="https://github.com/user-attachments/assets/0344f8af-e0ab-46f4-ae68-56bcb635c273" />
 
-<img width="1411" height="777" alt="image" src="https://github.com/user-attachments/assets/85409419-0638-4e37-9969-5dfa30346236" />
 
 
 ### Q&A Tab
@@ -69,7 +69,7 @@ Este proyecto demuestra cómo construir aplicaciones de IA modernas que:
 │ [Respuesta del asistente...]                    │
 └─────────────────────────────────────────────────┘
 ```
-<img width="1011" height="685" alt="image" src="https://github.com/user-attachments/assets/ba351b26-3ce7-4255-b5f6-6f82ad19d6b2" />
+<img width="990" height="665" alt="image" src="https://github.com/user-attachments/assets/3483af65-0601-4b26-9e48-87ab0b38f695" />
 
 
 
