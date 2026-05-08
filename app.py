@@ -69,7 +69,8 @@ def generate_with_fallback(client, prompt: str) -> str:
             last_err = err_msg
             if i < len(GEMINI_MODELS) - 1:
                 time.sleep(1)
-    raise RuntimeError(last_err)
+    # Si todos fueron 404, last_err queda vacío
+    raise RuntimeError(last_err or "Todos los modelos fallaron sin error registrado")
 
 # ─────────────────────────────────────────────
 # Operación 1: Traducción
@@ -886,7 +887,7 @@ with gr.Blocks(title="AI Multi-Op · Gemini") as demo:
         # ════════════════════════════════════════
         with gr.Tab("🌐  Traducción", id="tab_translate") as tab_translate:
 
-            gr.HTML('<div class="info-tip">Ingresa texto en cualquier idioma y selecciona el idioma de destino.</div>')
+            gr.HTML('<div class="info-tip">Ingresa texto en cualquier idioma y selecciona el idioma de destino. <span style="color:#888;font-style:italic;">Ej: "La inteligencia artificial está transformando la manera en que trabajamos..." → En Idioma Destino a English → Presionar Traducir.</span></div>')
 
             with gr.Row():
                 with gr.Column(scale=1):
@@ -905,12 +906,10 @@ with gr.Blocks(title="AI Multi-Op · Gemini") as demo:
                     )
                     char_html_t = gr.HTML('<span class="char-counter">0 / 5,000 caracteres</span>')
 
-                # Columna central — botón traducir
-                with gr.Column(scale=0.3, min_width=100):
+                with gr.Column(scale=0, min_width=120):
                     gr.HTML('<div style="height: 2rem;"></div>')
-                    btn_translate = gr.Button("Traducir →", variant="primary", interactive=False, scale=1)
+                    btn_translate = gr.Button("Traducir →", variant="primary", interactive=False)
 
-                # Columna derecha — output de traducción
                 with gr.Column(scale=1):
                     target_lang = gr.Dropdown(
                         choices=LANGUAGES,
@@ -941,7 +940,8 @@ with gr.Blocks(title="AI Multi-Op · Gemini") as demo:
             gr.HTML(
                 '<div class="info-tip">'
                 'Sigue los 3 pasos: pega el documento, escribe tu pregunta y obtén la respuesta. '
-                'ChromaDB indexa el texto para búsqueda semántica eficiente.'
+                'ChromaDB indexa el texto para búsqueda semántica eficiente. '
+                '<span style="color:#888;font-style:italic;">Ej: Paso 1: pega un artículo / Paso 2: Haz la pregunta → Paso 3: Presionar Responder.</span>'
                 '</div>'
             )
 
@@ -978,6 +978,8 @@ with gr.Blocks(title="AI Multi-Op · Gemini") as demo:
                 interactive=False,
             )
 
+            btn_qa = gr.Button("Responder →", variant="primary", interactive=False)
+
             # Paso 3 - Respuesta
             gr.HTML(
                 '<hr class="step-divider">'
@@ -993,9 +995,6 @@ with gr.Blocks(title="AI Multi-Op · Gemini") as demo:
                 elem_classes="output-box",
                 placeholder="La respuesta aparecerá aquí...",
             )
-
-            # Botón Responder al final
-            btn_qa = gr.Button("Responder →", variant="primary", interactive=False, scale=1)
 
             doc_text.change(fn=char_count, inputs=doc_text, outputs=char_html_q, queue=False, show_progress=False)
             btn_qa.click(
