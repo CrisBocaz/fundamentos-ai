@@ -523,7 +523,8 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
     border-left: 3px solid var(--primary);
     border-radius: 4px;
     padding: 1rem 1rem 1rem 1.5rem;
-    font-size: 0.85rem;
+    font-size: 1rem;
+    font-weight: 500;
     color: var(--text);
     margin-bottom: 1rem;
 }
@@ -730,6 +731,11 @@ def toggle_tabs(api_key: str):
         gr.update(visible=not ok),   # key_error
         gr.update(visible=ok),       # key_ok_msg
         gr.update(visible=not ok),   # tab2_lock_banner
+        gr.update(interactive=ok),   # source_lang
+        gr.update(interactive=ok),   # src_text
+        gr.update(interactive=ok),   # target_lang
+        gr.update(interactive=ok),   # doc_text
+        gr.update(interactive=ok),   # question_input
     )
 
 def char_count(text: str) -> str:
@@ -837,13 +843,13 @@ with gr.Blocks(css=CSS, title="AI Multi-Op · Gemini") as demo:
             )
             btn_key_toggle = gr.Button("👁", scale=0, min_width=44, size="sm", elem_classes="btn-toggle-key")
         key_error = gr.HTML(
-            '<div style="color:#ef4444;font-size:0.85rem;margin-top:4px;">'
-            '⚠️ Ingresa tu API Key para habilitar las operaciones.'
+            '<div style="color:#ef4444;font-size:1rem;margin-top:4px;font-weight:500;">'
+            '⚠️ Primero, ingresa tu API Key para habilitar las operaciones.'
             '</div>',
             visible=True,
         )
         key_ok_msg = gr.HTML(
-            '<div style="color:#16a34a;font-size:0.85rem;margin-top:4px;">'
+            '<div style="color:#16a34a;font-size:1rem;margin-top:4px;font-weight:500;">'
             '✅ API Key ingresada. Puedes usar las operaciones.'
             '</div>',
             visible=False,
@@ -865,13 +871,14 @@ with gr.Blocks(css=CSS, title="AI Multi-Op · Gemini") as demo:
                         choices=LANGUAGES,
                         value="Español",
                         label="Idioma origen",
-                        interactive=True,
+                        interactive=False,
                     )
                     src_text = gr.Textbox(
                         label="Texto original",
                         placeholder="Pega o escribe el texto que deseas traducir...",
                         lines=8,
                         max_lines=20,
+                        interactive=False,
                     )
                     char_html_t = gr.HTML('<span class="char-counter">0 / 5,000 caracteres</span>')
 
@@ -886,7 +893,7 @@ with gr.Blocks(css=CSS, title="AI Multi-Op · Gemini") as demo:
                         choices=LANGUAGES,
                         value="English",
                         label="Idioma destino",
-                        interactive=True,
+                        interactive=False,
                     )
                     translation_output = gr.Textbox(
                         label="Traducción",
@@ -936,6 +943,7 @@ with gr.Blocks(css=CSS, title="AI Multi-Op · Gemini") as demo:
                 lines=7,
                 max_lines=15,
                 visible=True,
+                interactive=False,
             )
             char_html_q = gr.HTML('<span class="char-counter">0 / 5,000 caracteres</span>', visible=True)
 
@@ -952,6 +960,7 @@ with gr.Blocks(css=CSS, title="AI Multi-Op · Gemini") as demo:
                 placeholder="¿Cuál es el tema principal del documento?",
                 lines=2,
                 max_lines=4,
+                interactive=False,
             )
 
             # Paso 3 - Respuesta
@@ -984,14 +993,14 @@ with gr.Blocks(css=CSS, title="AI Multi-Op · Gemini") as demo:
     api_key_input.change(
         fn=toggle_tabs,
         inputs=api_key_input,
-        outputs=[btn_translate, btn_qa, key_error, key_ok_msg, tab2_lock_banner],
+        outputs=[btn_translate, btn_qa, key_error, key_ok_msg, tab2_lock_banner, source_lang, src_text, target_lang, doc_text, question_input],
         queue=False,
         show_progress="hidden",
     )
     api_key_visible.change(
         fn=toggle_tabs,
         inputs=api_key_visible,
-        outputs=[btn_translate, btn_qa, key_error, key_ok_msg, tab2_lock_banner],
+        outputs=[btn_translate, btn_qa, key_error, key_ok_msg, tab2_lock_banner, source_lang, src_text, target_lang, doc_text, question_input],
         queue=False,
         show_progress="hidden",
     )
