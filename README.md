@@ -150,4 +150,4 @@ Este proyecto está bajo la Licencia MIT. Ver archivo `LICENSE` para más detall
 
 ---
 
-**Desarrollado con ❤️ usando Google Gemini API**
+
