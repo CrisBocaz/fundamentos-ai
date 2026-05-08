@@ -333,12 +333,17 @@ gradio-app, .gradio-container {
     border: none !important;
     background: white !important;
     margin-bottom: -3px !important;
+    box-shadow: none !important;
 }
-.tab-nav button:hover:not(.selected) {
+/* Tab hover — ambos selectores para local y HF Spaces */
+.tab-nav button:hover:not(.selected),
+.tab-nav button[aria-selected="false"]:hover {
     background: var(--primary-light) !important;
     color: var(--text) !important;
 }
-.tab-nav button.selected {
+/* Tab activo — .selected (local) y aria-selected (HF Spaces / Gradio 6) */
+.tab-nav button.selected,
+.tab-nav button[aria-selected="true"] {
     color: var(--primary) !important;
     background: white !important;
     border-bottom: 4px solid var(--primary) !important;
@@ -347,28 +352,48 @@ gradio-app, .gradio-container {
     font-size: 1.05rem !important;
 }
 
-/* Buttons - modern with primary color */
-button, .gr-button, .gr-button-primary, button.primary-btn {
+/* Buttons — primarios (Traducir, Responder) */
+/* Gradio 6: variant="primary" → button.primary  |  legacy: .gr-button-primary */
+button.primary,
+.gr-button-primary,
+button[data-testid="button"].primary {
     background: var(--primary) !important;
     color: white !important;
     border: none !important;
     border-radius: 4px !important;
-    font-weight: 500 !important;
+    font-weight: 600 !important;
     font-size: 0.9rem !important;
     padding: 0.75rem 1.5rem !important;
     cursor: pointer !important;
     transition: all 0.3s ease !important;
     box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2) !important;
 }
-
-button:hover, .gr-button:hover, .gr-button-primary:hover, button.primary-btn:hover {
+button.primary:hover,
+.gr-button-primary:hover,
+button[data-testid="button"].primary:hover {
     background: var(--primary-dark) !important;
     box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3) !important;
 }
-
-button:focus, .gr-button:focus {
+button.primary:focus,
+.gr-button-primary:focus {
     outline: none !important;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3) !important;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25) !important;
+}
+
+/* Botones secundarios (toggle, sm) */
+button.secondary,
+.gr-button-secondary {
+    background: white !important;
+    color: var(--text) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 4px !important;
+    font-weight: 500 !important;
+    transition: all 0.3s ease !important;
+}
+button.secondary:hover,
+.gr-button-secondary:hover {
+    background: var(--primary-light) !important;
+    border-color: var(--primary) !important;
 }
 
 /* Char counter */
