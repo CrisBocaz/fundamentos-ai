@@ -730,7 +730,6 @@ def toggle_tabs(api_key: str):
         gr.update(interactive=ok),   # btn_qa
         gr.update(visible=not ok),   # key_error
         gr.update(visible=ok),       # key_ok_msg
-        gr.update(visible=not ok),   # tab2_lock_banner
         gr.update(interactive=ok),   # source_lang
         gr.update(interactive=ok),   # src_text
         gr.update(interactive=ok),   # target_lang
@@ -915,14 +914,6 @@ with gr.Blocks(css=CSS, title="AI Multi-Op · Gemini") as demo:
         # ════════════════════════════════════════
         with gr.Tab("📄  QA — Preguntas & Respuestas", id="tab_qa") as tab_qa:
 
-            # Lock banner contextual (#6)
-            tab2_lock_banner = gr.HTML(
-                '<div class="lock-banner">'
-                '🔒 <span>Ingresa tu <strong>API Key</strong> arriba para activar el QA sobre documentos.</span>'
-                '</div>',
-                visible=True,
-            )
-
             gr.HTML(
                 '<div class="info-tip">'
                 'Sigue los 3 pasos: pega el documento, escribe tu pregunta y obtén la respuesta. '
@@ -993,14 +984,14 @@ with gr.Blocks(css=CSS, title="AI Multi-Op · Gemini") as demo:
     api_key_input.change(
         fn=toggle_tabs,
         inputs=api_key_input,
-        outputs=[btn_translate, btn_qa, key_error, key_ok_msg, tab2_lock_banner, source_lang, src_text, target_lang, doc_text, question_input],
+        outputs=[btn_translate, btn_qa, key_error, key_ok_msg, source_lang, src_text, target_lang, doc_text, question_input],
         queue=False,
         show_progress="hidden",
     )
     api_key_visible.change(
         fn=toggle_tabs,
         inputs=api_key_visible,
-        outputs=[btn_translate, btn_qa, key_error, key_ok_msg, tab2_lock_banner, source_lang, src_text, target_lang, doc_text, question_input],
+        outputs=[btn_translate, btn_qa, key_error, key_ok_msg, source_lang, src_text, target_lang, doc_text, question_input],
         queue=False,
         show_progress="hidden",
     )
